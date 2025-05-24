@@ -1,11 +1,26 @@
-# React + TypeScript + Vite
+# 3D Rotating Cube
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive 3D cube visualization built with React, TypeScript, and Three.js. This application allows users to manipulate a 3D cube through both UI controls and keyboard shortcuts.
 
-Currently, two official plugins are available:
+## Live Demo
+
+[View Live Demo](https://rotating-cube-n3swb5nrb-space-plushy.vercel.app)
+
+## Features
 
 - Real-time 3D rendering with Three.js
-- Interactive controls for cube manipulation
+- Interactive controls for cube manipulation:
+  - Color selection with presets and color picker
+  - Rotation speed adjustment
+  - Wireframe mode toggle
+  - Manual rotation controls
+  - Reset rotation functionality
+- Full keyboard support:
+  - Arrow keys for rotation
+  - R to reset rotation
+  - W to toggle wireframe
+  - +/- to adjust speed
+  - H to toggle help panel
 - Responsive design for all device sizes
 - Custom material and lighting effects
 - Performance optimized with React hooks

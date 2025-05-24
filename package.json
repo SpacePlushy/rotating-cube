@@ -1,7 +1,14 @@
 {
-  "name": "vite-temp",
+  "name": "rotating-cube",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Interactive 3D rotating cube with Three.js and React",
+  "author": "SpacePlushy",
+  "homepage": "https://rotating-cube-n3swb5nrb-space-plushy.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/space-plushy/rotating-cube"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
