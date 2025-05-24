@@ -7,6 +7,7 @@ body, html {
   font-family: 'Inter', system-ui, sans-serif;
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   color: white;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 #root {
@@ -66,8 +67,46 @@ body.light-mode header {
 body.light-mode .controls {
   background: rgba(255, 255, 255, 0.8);
   color: #213547;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 body.light-mode .controlGroup {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(240, 240, 240, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode button {
+  background-color: #f0f0f0;
+  color: #213547;
+  border: 1px solid #d0d0d0;
+}
+
+body.light-mode button:hover {
+  background-color: #e0e0e0;
+  border-color: #646cff;
+}
+
+body.light-mode .lightToggleBtn {
+  background-color: #213547;
+  color: white;
+}
+
+body.light-mode .speedBtn {
+  background: #e0e0e0;
+  color: #213547;
+  border: 1px solid #ccc;
+}
+
+body.light-mode .speedBtn:hover {
+  background: #d0d0d0;
+}
+
+body.light-mode .directionBtn {
+  background: #e0e0e0;
+  color: #213547;
+  border: 1px solid #ccc;
+}
+
+body.light-mode .directionBtn:hover {
+  background: #d0d0d0;
 }

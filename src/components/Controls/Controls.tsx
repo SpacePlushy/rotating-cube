@@ -54,6 +54,15 @@ const Controls = ({
     const newColor = e.target.value;
     setColor(newColor);
     onColorChange(newColor);
+    
+    // Add data attributes for Puppeteer testing
+    document.body.setAttribute('data-current-color', newColor);
+    
+    // Update container data attributes directly for better test reliability
+    const cubeContainer = document.querySelector('[data-testid="cube-container"]');
+    if (cubeContainer) {
+      cubeContainer.setAttribute('data-color', newColor);
+    }
   };
   
   const handleSpeedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,6 +77,12 @@ const Controls = ({
     onWireframeToggle(isWireframe);
   };
 
+  const handleWireframeButtonClick = () => {
+    const newWireframeState = !wireframe;
+    setWireframe(newWireframeState);
+    onWireframeToggle(newWireframeState);
+  };
+
   const handleShapeChangeSelect = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -76,12 +91,31 @@ const Controls = ({
     onShapeChange(newShape);
   };
 
-  const setPresetColor = (colorValue: string) => {
+  const handleColorPresetClick = (colorValue: string) => {
     setColor(colorValue);
     onColorChange(colorValue);
+    
+    // Update the color picker element value
+    const colorPicker = document.getElementById('colorPicker') as HTMLInputElement;
+    if (colorPicker) {
+      colorPicker.value = colorValue;
+      
+      // Trigger input and change events for the color picker
+      colorPicker.dispatchEvent(new Event('input', { bubbles: true }));
+      colorPicker.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    
+    // Add data attributes for Puppeteer testing
+    document.body.setAttribute('data-current-color', colorValue);
+    
+    // Update container data attributes directly for better test reliability
+    const cubeContainer = document.querySelector('[data-testid="cube-container"]');
+    if (cubeContainer) {
+      cubeContainer.setAttribute('data-color', colorValue);
+    }
   };
 
-  const setPresetSpeed = (speedValue: number) => {
+  const handleSpeedPresetClick = (speedValue: number) => {
     setSpeed(speedValue);
     onSpeedChange(speedValue);
   };
@@ -143,23 +177,25 @@ const Controls = ({
     <div className="controls">
       <h2>Cube Controls</h2>
       
-      {/* Color controls */}
+      {/* Color selection */}
       <div className="controlGroup">
-        <label htmlFor="color">Color:</label>
-        <input 
-          type="color" 
-          id="color" 
-          value={color} 
-          onChange={handleColorChange} 
+        <label htmlFor="colorPicker">Color:</label>
+        <input
+          type="color"
+          id="colorPicker"
+          value={color}
+          onChange={handleColorChange}
+          data-testid="color-picker"
         />
         <div className="buttonGroup">
-          {colorPresets.map(preset => (
-            <button 
+          {colorPresets.map((preset) => (
+            <button
               key={preset.name}
               className="colorBtn"
               style={{ backgroundColor: preset.value }}
-              onClick={() => setPresetColor(preset.value)}
-              title={preset.name}
+              onClick={() => handleColorPresetClick(preset.value)}
+              data-testid={`color-preset-${preset.name.toLowerCase()}`}
+              data-color-value={preset.value}
             >
               {preset.name[0]}
             </button>
@@ -167,25 +203,27 @@ const Controls = ({
         </div>
       </div>
       
-      {/* Speed controls */}
+      {/* Rotation speed */}
       <div className="controlGroup">
-        <label htmlFor="speed">Rotation Speed:</label>
-        <input 
-          type="range" 
-          id="speed" 
-          min="0" 
-          max="0.1" 
-          step="0.001" 
-          value={speed} 
-          onChange={handleSpeedChange} 
+        <label htmlFor="speedSlider">Rotation Speed:</label>
+        <input
+          type="range"
+          id="speedSlider"
+          min="0"
+          max="0.05"
+          step="0.001"
+          value={speed}
+          onChange={handleSpeedChange}
+          data-testid="speed-slider"
         />
         <span>{speed.toFixed(3)}</span>
         <div className="buttonGroup">
-          {speedPresets.map(preset => (
-            <button 
+          {speedPresets.map((preset) => (
+            <button
               key={preset.name}
               className="speedBtn"
-              onClick={() => setPresetSpeed(preset.value)}
+              onClick={() => handleSpeedPresetClick(preset.value)}
+              data-testid={`speed-${preset.name.toLowerCase().replace(' ', '-')}`}
             >
               {preset.name}
             </button>
@@ -195,30 +233,34 @@ const Controls = ({
 
       {/* Wireframe toggle */}
       <div className="controlGroup">
-        <label htmlFor="wireframe">Wireframe:</label>
         <div className="toggleRow">
-          <input 
-            type="checkbox" 
-            id="wireframe" 
-            checked={wireframe} 
-            onChange={handleWireframeToggle} 
+          <input
+            type="checkbox"
+            id="wireframeToggle"
+            checked={wireframe}
+            onChange={handleWireframeToggle}
+            data-testid="wireframe-checkbox"
           />
-          <button 
-            className="actionBtn"
-            onClick={() => {
-              setWireframe(!wireframe);
-              onWireframeToggle(!wireframe);
-            }}
-          >
-            Toggle Wireframe
-          </button>
+          <label htmlFor="wireframeToggle">Wireframe:</label>
         </div>
+        <button 
+          className="actionBtn"
+          onClick={handleWireframeButtonClick}
+          data-testid="wireframe-button"
+        >
+          {wireframe ? 'Disable Wireframe' : 'Enable Wireframe'}
+        </button>
       </div>
 
       {/* Shape selection */}
       <div className="controlGroup">
-        <label htmlFor="shape">Shape:</label>
-        <select id="shape" value={shape} onChange={handleShapeChangeSelect}>
+        <label htmlFor="shapeSelect">Shape:</label>
+        <select
+          id="shapeSelect"
+          value={shape}
+          onChange={handleShapeChangeSelect}
+          data-testid="shape-select"
+        >
           <option value="cube">Cube</option>
           <option value="pyramid">Pyramid</option>
           <option value="sphere">Sphere</option>
@@ -236,6 +278,7 @@ const Controls = ({
           <button 
             className="directionBtn"
             onClick={() => onRotationDirectionChange(0, -0.1)}
+            data-testid="rotate-left"
           >
             ←
           </button>
@@ -243,12 +286,14 @@ const Controls = ({
             <button 
               className="directionBtn"
               onClick={() => onRotationDirectionChange(0.1, 0)}
+              data-testid="rotate-up"
             >
               ↑
             </button>
             <button 
               className="directionBtn"
               onClick={() => onRotationDirectionChange(-0.1, 0)}
+              data-testid="rotate-down"
             >
               ↓
             </button>
@@ -256,6 +301,7 @@ const Controls = ({
           <button 
             className="directionBtn"
             onClick={() => onRotationDirectionChange(0, 0.1)}
+            data-testid="rotate-right"
           >
             →
           </button>
@@ -263,6 +309,7 @@ const Controls = ({
         <button 
           className="resetBtn"
           onClick={onResetRotation}
+          data-testid="reset-rotation"
         >
           Reset Rotation
         </button>

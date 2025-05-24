@@ -3,6 +3,17 @@ import './App.css'
 import Cube from './components/Cube/Cube'
 import Controls from './components/Controls/Controls'
 
+// Add global interface for window test state
+declare global {
+  interface Window {
+    __testState?: {
+      currentColor: string;
+      currentShape: string;
+      isWireframe: boolean;
+    };
+  }
+}
+
 type Shape =
   | 'cube'
   | 'pyramid'
@@ -26,6 +37,16 @@ function App() {
   useEffect(() => {
     document.body.classList.toggle('light-mode', lightMode)
   }, [lightMode])
+
+useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.__testState = {
+        currentColor: cubeProps.color,
+        currentShape: cubeProps.shape,
+        isWireframe: cubeProps.wireframe
+      };
+    }
+  }, [cubeProps]);
 
   // Refs to store rotation handler functions from the Cube component
   const manualRotationHandlerRef = useRef<((x: number, y: number) => void) | null>(null);
@@ -85,6 +106,7 @@ function App() {
         <button
           className="lightToggleBtn"
           onClick={() => setLightMode(prev => !prev)}
+          data-testid="light-mode-toggle"
         >
           {lightMode ? 'Dark Mode' : 'Light Mode'}
         </button>

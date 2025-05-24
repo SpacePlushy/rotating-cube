@@ -76,6 +76,13 @@ const Cube = ({
     rotationSpeedRef.current = rotationSpeed;
   }, [rotationSpeed]);
   
+  // Update data attributes when color changes
+  useEffect(() => {
+    if (mountRef.current) {
+      mountRef.current.setAttribute('data-color', color);
+    }
+  }, [color]);
+  
   useEffect(() => {
     if (!mountRef.current) return;
     const mountElement = mountRef.current;
@@ -155,37 +162,100 @@ const Cube = ({
     
     window.addEventListener('resize', handleResize);
 
-    // --- Mouse Drag Controls ---
+    // Add mouse drag rotation with Puppeteer compatibility
     let isDragging = false;
     let previousMousePosition = { x: 0, y: 0 };
 
     const handlePointerDown = (event: PointerEvent) => {
       isDragging = true;
       previousMousePosition = { x: event.clientX, y: event.clientY };
-      autoRotationRef.current = false;
+      
+      // Add a data attribute to indicate dragging state for Puppeteer
+      if (mountRef.current) {
+        mountRef.current.setAttribute('data-dragging', 'true');
+      }
     };
 
     const handlePointerMove = (event: PointerEvent) => {
       if (!isDragging) return;
+      
       const deltaMove = {
         x: event.clientX - previousMousePosition.x,
         y: event.clientY - previousMousePosition.y
       };
-
-      // Rotate cube according to drag distance
+      
+      // Apply rotation based on mouse movement
+      // Invert y axis for more natural rotation direction
       handleManualRotation(deltaMove.y * 0.005, deltaMove.x * 0.005);
 
       previousMousePosition = { x: event.clientX, y: event.clientY };
+      
+      // Update data attributes for Puppeteer to track rotation
+      if (mountRef.current) {
+        mountRef.current.setAttribute('data-rotation-x', rotationRef.current.x.toString());
+        mountRef.current.setAttribute('data-rotation-y', rotationRef.current.y.toString());
+      }
     };
 
     const endDrag = () => {
       isDragging = false;
+      
+      // Update data attribute when dragging ends
+      if (mountRef.current) {
+        mountRef.current.setAttribute('data-dragging', 'false');
+      }
+    };
+
+    // Add touch events for mobile compatibility
+    const handleTouchStart = (event: TouchEvent) => {
+      if (event.touches.length === 1) {
+        isDragging = true;
+        previousMousePosition = { 
+          x: event.touches[0].clientX, 
+          y: event.touches[0].clientY 
+        };
+        
+        if (mountRef.current) {
+          mountRef.current.setAttribute('data-dragging', 'true');
+        }
+      }
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      if (!isDragging || event.touches.length !== 1) return;
+      
+      const deltaMove = {
+        x: event.touches[0].clientX - previousMousePosition.x,
+        y: event.touches[0].clientY - previousMousePosition.y
+      };
+      
+      handleManualRotation(deltaMove.y * 0.005, deltaMove.x * 0.005);
+
+      previousMousePosition = { 
+        x: event.touches[0].clientX, 
+        y: event.touches[0].clientY 
+      };
+      
+      if (mountRef.current) {
+        mountRef.current.setAttribute('data-rotation-x', rotationRef.current.x.toString());
+        mountRef.current.setAttribute('data-rotation-y', rotationRef.current.y.toString());
+      }
+    };
+
+    const handleTouchEnd = () => {
+      endDrag();
     };
 
     renderer.domElement.addEventListener('pointerdown', handlePointerDown);
     renderer.domElement.addEventListener('pointermove', handlePointerMove);
     renderer.domElement.addEventListener('pointerup', endDrag);
     renderer.domElement.addEventListener('pointerleave', endDrag);
+    
+    // Add touch events
+    renderer.domElement.addEventListener('touchstart', handleTouchStart);
+    renderer.domElement.addEventListener('touchmove', handleTouchMove);
+    renderer.domElement.addEventListener('touchend', handleTouchEnd);
+    renderer.domElement.addEventListener('touchcancel', handleTouchEnd);
     
     // Animation loop
     let frameId: number;
@@ -206,6 +276,18 @@ const Cube = ({
         cubeRef.current.rotation.y = rotationRef.current.y;
       }
       
+      // Update the material when properties change
+      if (cubeRef.current) {
+        (cubeRef.current.material as THREE.MeshStandardMaterial).color.set(color);
+        (cubeRef.current.material as THREE.MeshStandardMaterial).wireframe = wireframe;
+        
+        // Update data attributes for testing
+        if (mountRef.current) {
+          mountRef.current.setAttribute('data-color', color);
+          mountRef.current.setAttribute('data-wireframe', wireframe.toString());
+        }
+      }
+      
       // Render the scene
       renderer.render(scene, camera);
     }
@@ -217,10 +299,19 @@ const Cube = ({
     return () => {
       cancelAnimationFrame(frameId);
       window.removeEventListener('resize', handleResize);
+      
+      // Remove pointer event listeners
       renderer.domElement.removeEventListener('pointerdown', handlePointerDown);
       renderer.domElement.removeEventListener('pointermove', handlePointerMove);
       renderer.domElement.removeEventListener('pointerup', endDrag);
       renderer.domElement.removeEventListener('pointerleave', endDrag);
+      
+      // Remove touch event listeners
+      renderer.domElement.removeEventListener('touchstart', handleTouchStart);
+      renderer.domElement.removeEventListener('touchmove', handleTouchMove);
+      renderer.domElement.removeEventListener('touchend', handleTouchEnd);
+      renderer.domElement.removeEventListener('touchcancel', handleTouchEnd);
+      
       if (mountElement && mountElement.contains(renderer.domElement)) {
         mountElement.removeChild(renderer.domElement);
       }
@@ -230,7 +321,7 @@ const Cube = ({
     };
   }, [color, wireframe, shape, handleManualRotation]);
   
-  return <div className="cubeContainer" ref={mountRef}></div>;
+  return <div className="cubeContainer" ref={mountRef} data-testid="cube-container" data-shape={shape} data-color={color} data-wireframe={wireframe.toString()}></div>;
 };
 
 export default Cube;

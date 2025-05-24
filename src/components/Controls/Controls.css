@@ -69,6 +69,7 @@
 body.light-mode .controlGroup select {
   background: #fff;
   color: #213547;
+  border: 1px solid #ccc;
 }
 
 .controlGroup input[type="checkbox"] {
@@ -120,6 +121,16 @@ body.light-mode .controlGroup select {
   transition: all 0.2s;
 }
 
+body.light-mode .speedBtn {
+  background: #e0e0e0;
+  color: #213547;
+  border: 1px solid #ccc;
+}
+
+body.light-mode .speedBtn:hover {
+  background: #d0d0d0;
+}
+
 .speedBtn:hover {
   background: #444;
 }
@@ -141,6 +152,15 @@ body.light-mode .controlGroup select {
   display: block;
   width: 100%;
   margin-top: 8px;
+}
+
+body.light-mode .actionBtn {
+  background: #0077cc;
+  color: white;
+}
+
+body.light-mode .actionBtn:hover {
+  background: #0099ff;
 }
 
 .actionBtn:hover, .resetBtn:hover, .helpBtn:hover {
@@ -190,7 +210,17 @@ body.light-mode .controlGroup select {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
+}
+
+body.light-mode .directionBtn {
+  background: #e0e0e0;
+  color: #213547;
+  border: 1px solid #ccc;
+}
+
+body.light-mode .directionBtn:hover {
+  background: #d0d0d0;
 }
 
 .directionBtn:hover {

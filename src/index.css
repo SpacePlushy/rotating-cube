@@ -67,6 +67,7 @@ button:focus-visible {
   }
 }
 
+/* Light mode styles are primarily defined in App.css to avoid conflicts */
 body.light-mode {
   color: #213547;
   background-color: #ffffff;
@@ -76,6 +77,4 @@ body.light-mode a:hover {
   color: #747bff;
 }
 
-body.light-mode button {
-  background-color: #f9f9f9;
-}
+/* Button styles are overridden in App.css */
