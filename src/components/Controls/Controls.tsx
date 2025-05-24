@@ -92,17 +92,19 @@ const Controls = ({
           setWireframe(!wireframe);
           break;
         case '+':
-        case '=':
+        case '=': {
           const increasedSpeed = Math.min(speed + 0.005, 0.1);
           setSpeed(increasedSpeed);
           onSpeedChange(increasedSpeed);
           break;
+        }
         case '-':
-        case '_':
+        case '_': {
           const decreasedSpeed = Math.max(speed - 0.005, 0);
           setSpeed(decreasedSpeed);
           onSpeedChange(decreasedSpeed);
           break;
+        }
         case 'h':
         case 'H':
           setShowHelp(!showHelp);

@@ -66,3 +66,16 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+body.light-mode {
+  color: #213547;
+  background-color: #ffffff;
+}
+
+body.light-mode a:hover {
+  color: #747bff;
+}
+
+body.light-mode button {
+  background-color: #f9f9f9;
+}

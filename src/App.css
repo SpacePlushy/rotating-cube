@@ -40,8 +40,34 @@ header h1 {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+.lightToggleBtn {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 @media (max-width: 768px) {
   header h1 {
     font-size: 1.5rem;
   }
+}
+
+body.light-mode {
+  background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+  color: #213547;
+}
+
+body.light-mode header {
+  background: rgba(255, 255, 255, 0.7);
+  color: #213547;
+}
+
+body.light-mode .controls {
+  background: rgba(255, 255, 255, 0.8);
+  color: #213547;
+}
+
+body.light-mode .controlGroup {
+  background: rgba(255, 255, 255, 0.6);
 }
