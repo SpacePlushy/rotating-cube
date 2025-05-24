@@ -11,10 +11,12 @@
   },
   "type": "module",
   "scripts": {
+    "start": "npm install && npm run dev -- --host 0.0.0.0",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
     "@types/three": "^0.176.0",
