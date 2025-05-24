@@ -8,7 +8,8 @@ function App() {
   const [cubeProps, setCubeProps] = useState({
     color: '#00ff00',
     rotationSpeed: 0.01,
-    wireframe: false
+    wireframe: false,
+    shape: 'cube' as 'cube' | 'pyramid'
   })
 
   const [lightMode, setLightMode] = useState(false)
@@ -34,6 +35,14 @@ function App() {
   // Handler for wireframe toggle from the Controls component
   const handleWireframeToggle = useCallback((wireframe: boolean) => {
     setCubeProps(prev => ({ ...prev, wireframe }))
+  }, [])
+
+  // Toggle between cube and pyramid shapes
+  const handleShapeToggle = useCallback(() => {
+    setCubeProps(prev => ({
+      ...prev,
+      shape: prev.shape === 'cube' ? 'pyramid' : 'cube'
+    }))
   }, [])
 
   // Set up the rotation direction handler to be passed to Controls
@@ -72,18 +81,20 @@ function App() {
         </button>
       </header>
       
-      <Cube 
+      <Cube
         color={cubeProps.color}
         rotationSpeed={cubeProps.rotationSpeed}
         wireframe={cubeProps.wireframe}
+        shape={cubeProps.shape}
         onRotationDirectionChange={storeManualRotationHandler}
         onResetRotation={storeResetRotationHandler}
       />
-      
-      <Controls 
+
+      <Controls
         onColorChange={handleColorChange}
         onSpeedChange={handleSpeedChange}
         onWireframeToggle={handleWireframeToggle}
+        onShapeToggle={handleShapeToggle}
         onRotationDirectionChange={handleRotationDirectionChange}
         onResetRotation={handleResetRotation}
       />

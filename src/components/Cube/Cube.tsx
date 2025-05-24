@@ -6,6 +6,7 @@ interface CubeProps {
   rotationSpeed?: number;
   color?: string;
   wireframe?: boolean;
+  shape?: 'cube' | 'pyramid';
   onRotationDirectionChange?: (handler: (x: number, y: number) => void) => void;
   onResetRotation?: (handler: () => void) => void;
 }
@@ -15,12 +16,13 @@ interface Rotation {
   y: number;
 }
 
-const Cube = ({ 
-  rotationSpeed = 0.01, 
-  color = '#00ff00', 
+const Cube = ({
+  rotationSpeed = 0.01,
+  color = '#00ff00',
   wireframe = false,
+  shape = 'cube',
   onRotationDirectionChange,
-  onResetRotation 
+  onResetRotation
 }: CubeProps) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const rotationRef = useRef<Rotation>({ x: 0, y: 0 });
@@ -82,8 +84,11 @@ const Cube = ({
     renderer.setPixelRatio(window.devicePixelRatio);
     mountRef.current.appendChild(renderer.domElement);
     
-    // Create the cube
-    const geometry = new THREE.BoxGeometry(2, 2, 2);
+    // Create the mesh geometry based on selected shape
+    const geometry =
+      shape === 'pyramid'
+        ? new THREE.TetrahedronGeometry(2)
+        : new THREE.BoxGeometry(2, 2, 2);
     const material = new THREE.MeshStandardMaterial({ 
       color: color,
       wireframe: wireframe,
@@ -157,7 +162,7 @@ const Cube = ({
       material.dispose();
       renderer.dispose();
     };
-  }, [color, wireframe]);
+  }, [color, wireframe, shape]);
   
   return <div className="cubeContainer" ref={mountRef}></div>;
 };

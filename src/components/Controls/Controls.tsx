@@ -5,6 +5,7 @@ interface ControlsProps {
   onColorChange: (color: string) => void;
   onSpeedChange: (speed: number) => void;
   onWireframeToggle: (wireframe: boolean) => void;
+  onShapeToggle: () => void;
   onRotationDirectionChange: (x: number, y: number) => void;
   onResetRotation: () => void;
 }
@@ -13,6 +14,7 @@ const Controls = ({
   onColorChange,
   onSpeedChange,
   onWireframeToggle,
+  onShapeToggle,
   onRotationDirectionChange,
   onResetRotation
 }: ControlsProps) => {
@@ -20,6 +22,7 @@ const Controls = ({
   const [speed, setSpeed] = useState(0.01);
   const [wireframe, setWireframe] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const [shape, setShape] = useState<'cube' | 'pyramid'>('cube');
   
   // Predefined colors
   const colorPresets = [
@@ -54,6 +57,11 @@ const Controls = ({
     const isWireframe = e.target.checked;
     setWireframe(isWireframe);
     onWireframeToggle(isWireframe);
+  };
+
+  const handleShapeToggleClick = () => {
+    setShape(prev => (prev === 'cube' ? 'pyramid' : 'cube'));
+    onShapeToggle();
   };
 
   const setPresetColor = (colorValue: string) => {
@@ -172,7 +180,7 @@ const Controls = ({
           ))}
         </div>
       </div>
-      
+
       {/* Wireframe toggle */}
       <div className="controlGroup">
         <label htmlFor="wireframe">Wireframe:</label>
@@ -193,6 +201,14 @@ const Controls = ({
             Toggle Wireframe
           </button>
         </div>
+      </div>
+
+      {/* Shape toggle */}
+      <div className="controlGroup">
+        <label>Shape:</label>
+        <button className="actionBtn" onClick={handleShapeToggleClick}>
+          {shape === 'cube' ? 'Switch to Pyramid' : 'Switch to Cube'}
+        </button>
       </div>
 
       {/* Rotation controls */}
