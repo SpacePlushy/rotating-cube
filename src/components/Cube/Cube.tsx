@@ -2,11 +2,20 @@ import { useRef, useEffect, useCallback } from 'react';
 import * as THREE from 'three';
 import './Cube.css';
 
+type Shape =
+  | 'cube'
+  | 'pyramid'
+  | 'sphere'
+  | 'cylinder'
+  | 'cone'
+  | 'torus'
+  | 'dodecahedron';
+
 interface CubeProps {
   rotationSpeed?: number;
   color?: string;
   wireframe?: boolean;
-  shape?: 'cube' | 'pyramid';
+  shape?: Shape;
   onRotationDirectionChange?: (handler: (x: number, y: number) => void) => void;
   onResetRotation?: (handler: () => void) => void;
 }
@@ -86,10 +95,30 @@ const Cube = ({
     mountElement.appendChild(renderer.domElement);
     
     // Create the mesh geometry based on selected shape
-    const geometry =
-      shape === 'pyramid'
-        ? new THREE.TetrahedronGeometry(2)
-        : new THREE.BoxGeometry(2, 2, 2);
+    let geometry: THREE.BufferGeometry;
+    switch (shape) {
+      case 'pyramid':
+        geometry = new THREE.TetrahedronGeometry(2);
+        break;
+      case 'sphere':
+        geometry = new THREE.SphereGeometry(2, 32, 32);
+        break;
+      case 'cylinder':
+        geometry = new THREE.CylinderGeometry(1.5, 1.5, 3, 32);
+        break;
+      case 'cone':
+        geometry = new THREE.ConeGeometry(1.5, 3, 32);
+        break;
+      case 'torus':
+        geometry = new THREE.TorusGeometry(1.5, 0.6, 16, 100);
+        break;
+      case 'dodecahedron':
+        geometry = new THREE.DodecahedronGeometry(2);
+        break;
+      default:
+        geometry = new THREE.BoxGeometry(2, 2, 2);
+        break;
+    }
     const material = new THREE.MeshStandardMaterial({ 
       color: color,
       wireframe: wireframe,
