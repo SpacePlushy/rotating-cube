@@ -42,7 +42,7 @@ header h1 {
 
 .lightToggleBtn {
   position: absolute;
-  right: 1rem;
+  left: 1rem;
   top: 50%;
   transform: translateY(-50%);
 }
