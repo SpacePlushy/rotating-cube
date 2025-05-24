@@ -69,10 +69,11 @@ const Cube = ({
   
   useEffect(() => {
     if (!mountRef.current) return;
+    const mountElement = mountRef.current;
     
     // Clear any existing content
-    while (mountRef.current.firstChild) {
-      mountRef.current.removeChild(mountRef.current.firstChild);
+    while (mountElement.firstChild) {
+      mountElement.removeChild(mountElement.firstChild);
     }
     
     // Scene setup
@@ -82,7 +83,7 @@ const Cube = ({
     
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    mountRef.current.appendChild(renderer.domElement);
+    mountElement.appendChild(renderer.domElement);
     
     // Create the mesh geometry based on selected shape
     const geometry =
@@ -124,6 +125,38 @@ const Cube = ({
     };
     
     window.addEventListener('resize', handleResize);
+
+    // --- Mouse Drag Controls ---
+    let isDragging = false;
+    let previousMousePosition = { x: 0, y: 0 };
+
+    const handlePointerDown = (event: PointerEvent) => {
+      isDragging = true;
+      previousMousePosition = { x: event.clientX, y: event.clientY };
+      autoRotationRef.current = false;
+    };
+
+    const handlePointerMove = (event: PointerEvent) => {
+      if (!isDragging) return;
+      const deltaMove = {
+        x: event.clientX - previousMousePosition.x,
+        y: event.clientY - previousMousePosition.y
+      };
+
+      // Rotate cube according to drag distance
+      handleManualRotation(deltaMove.y * 0.005, deltaMove.x * 0.005);
+
+      previousMousePosition = { x: event.clientX, y: event.clientY };
+    };
+
+    const endDrag = () => {
+      isDragging = false;
+    };
+
+    renderer.domElement.addEventListener('pointerdown', handlePointerDown);
+    renderer.domElement.addEventListener('pointermove', handlePointerMove);
+    renderer.domElement.addEventListener('pointerup', endDrag);
+    renderer.domElement.addEventListener('pointerleave', endDrag);
     
     // Animation loop
     let frameId: number;
@@ -155,14 +188,18 @@ const Cube = ({
     return () => {
       cancelAnimationFrame(frameId);
       window.removeEventListener('resize', handleResize);
-      if (mountRef.current && mountRef.current.contains(renderer.domElement)) {
-        mountRef.current.removeChild(renderer.domElement);
+      renderer.domElement.removeEventListener('pointerdown', handlePointerDown);
+      renderer.domElement.removeEventListener('pointermove', handlePointerMove);
+      renderer.domElement.removeEventListener('pointerup', endDrag);
+      renderer.domElement.removeEventListener('pointerleave', endDrag);
+      if (mountElement && mountElement.contains(renderer.domElement)) {
+        mountElement.removeChild(renderer.domElement);
       }
       geometry.dispose();
       material.dispose();
       renderer.dispose();
     };
-  }, [color, wireframe, shape]);
+  }, [color, wireframe, shape, handleManualRotation]);
   
   return <div className="cubeContainer" ref={mountRef}></div>;
 };

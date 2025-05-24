@@ -14,6 +14,7 @@ An interactive 3D cube visualization built with React, TypeScript, and Three.js.
   - Rotation speed adjustment
   - Wireframe mode toggle
   - Manual rotation controls
+  - Mouse drag to rotate the shape
   - Reset rotation functionality
 - Full keyboard support:
   - Arrow keys for rotation
