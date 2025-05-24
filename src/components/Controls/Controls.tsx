@@ -1,11 +1,20 @@
 import { useState, useEffect } from 'react';
 import './Controls.css';
 
+type Shape =
+  | 'cube'
+  | 'pyramid'
+  | 'sphere'
+  | 'cylinder'
+  | 'cone'
+  | 'torus'
+  | 'dodecahedron';
+
 interface ControlsProps {
   onColorChange: (color: string) => void;
   onSpeedChange: (speed: number) => void;
   onWireframeToggle: (wireframe: boolean) => void;
-  onShapeToggle: () => void;
+  onShapeChange: (shape: Shape) => void;
   onRotationDirectionChange: (x: number, y: number) => void;
   onResetRotation: () => void;
 }
@@ -14,7 +23,7 @@ const Controls = ({
   onColorChange,
   onSpeedChange,
   onWireframeToggle,
-  onShapeToggle,
+  onShapeChange,
   onRotationDirectionChange,
   onResetRotation
 }: ControlsProps) => {
@@ -22,7 +31,7 @@ const Controls = ({
   const [speed, setSpeed] = useState(0.01);
   const [wireframe, setWireframe] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
-  const [shape, setShape] = useState<'cube' | 'pyramid'>('cube');
+  const [shape, setShape] = useState<Shape>('cube');
   
   // Predefined colors
   const colorPresets = [
@@ -59,9 +68,12 @@ const Controls = ({
     onWireframeToggle(isWireframe);
   };
 
-  const handleShapeToggleClick = () => {
-    setShape(prev => (prev === 'cube' ? 'pyramid' : 'cube'));
-    onShapeToggle();
+  const handleShapeChangeSelect = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const newShape = e.target.value as Shape;
+    setShape(newShape);
+    onShapeChange(newShape);
   };
 
   const setPresetColor = (colorValue: string) => {
@@ -203,12 +215,18 @@ const Controls = ({
         </div>
       </div>
 
-      {/* Shape toggle */}
+      {/* Shape selection */}
       <div className="controlGroup">
-        <label>Shape:</label>
-        <button className="actionBtn" onClick={handleShapeToggleClick}>
-          {shape === 'cube' ? 'Switch to Pyramid' : 'Switch to Cube'}
-        </button>
+        <label htmlFor="shape">Shape:</label>
+        <select id="shape" value={shape} onChange={handleShapeChangeSelect}>
+          <option value="cube">Cube</option>
+          <option value="pyramid">Pyramid</option>
+          <option value="sphere">Sphere</option>
+          <option value="cylinder">Cylinder</option>
+          <option value="cone">Cone</option>
+          <option value="torus">Torus</option>
+          <option value="dodecahedron">Dodecahedron</option>
+        </select>
       </div>
 
       {/* Rotation controls */}

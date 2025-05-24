@@ -13,6 +13,8 @@ An interactive 3D cube visualization built with React, TypeScript, and Three.js.
   - Color selection with presets and color picker
   - Rotation speed adjustment
   - Wireframe mode toggle
+  - Shape selection with multiple geometries (cube, pyramid, sphere, cylinder,
+    cone, torus, dodecahedron)
   - Manual rotation controls
   - Mouse drag to rotate the shape
   - Reset rotation functionality

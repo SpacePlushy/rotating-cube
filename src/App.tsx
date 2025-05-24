@@ -3,13 +3,22 @@ import './App.css'
 import Cube from './components/Cube/Cube'
 import Controls from './components/Controls/Controls'
 
+type Shape =
+  | 'cube'
+  | 'pyramid'
+  | 'sphere'
+  | 'cylinder'
+  | 'cone'
+  | 'torus'
+  | 'dodecahedron'
+
 function App() {
   // Main cube properties
   const [cubeProps, setCubeProps] = useState({
     color: '#00ff00',
     rotationSpeed: 0.01,
     wireframe: false,
-    shape: 'cube' as 'cube' | 'pyramid'
+    shape: 'cube' as Shape
   })
 
   const [lightMode, setLightMode] = useState(false)
@@ -37,11 +46,11 @@ function App() {
     setCubeProps(prev => ({ ...prev, wireframe }))
   }, [])
 
-  // Toggle between cube and pyramid shapes
-  const handleShapeToggle = useCallback(() => {
+  // Change shape of the geometry
+  const handleShapeChange = useCallback((newShape: Shape) => {
     setCubeProps(prev => ({
       ...prev,
-      shape: prev.shape === 'cube' ? 'pyramid' : 'cube'
+      shape: newShape
     }))
   }, [])
 
@@ -94,7 +103,7 @@ function App() {
         onColorChange={handleColorChange}
         onSpeedChange={handleSpeedChange}
         onWireframeToggle={handleWireframeToggle}
-        onShapeToggle={handleShapeToggle}
+        onShapeChange={handleShapeChange}
         onRotationDirectionChange={handleRotationDirectionChange}
         onResetRotation={handleResetRotation}
       />
