@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import './App.css'
 import Cube from './components/Cube/Cube'
 import Controls from './components/Controls/Controls'
@@ -10,6 +10,12 @@ function App() {
     rotationSpeed: 0.01,
     wireframe: false
   })
+
+  const [lightMode, setLightMode] = useState(false)
+
+  useEffect(() => {
+    document.body.classList.toggle('light-mode', lightMode)
+  }, [lightMode])
 
   // Refs to store rotation handler functions from the Cube component
   const manualRotationHandlerRef = useRef<((x: number, y: number) => void) | null>(null);
@@ -58,6 +64,12 @@ function App() {
     <div className="app">
       <header>
         <h1>3D Rotating Cube</h1>
+        <button
+          className="lightToggleBtn"
+          onClick={() => setLightMode(prev => !prev)}
+        >
+          {lightMode ? 'Dark Mode' : 'Light Mode'}
+        </button>
       </header>
       
       <Cube 
