@@ -1,0 +1,236 @@
+.controls {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 10;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  user-select: none;
+}
+
+.controls h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 10px;
+}
+
+.controlGroup {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.controlGroup label {
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+}
+
+.controlGroup input[type="range"] {
+  width: 100%;
+  margin-bottom: 8px;
+  height: 8px;
+  accent-color: #00aaff;
+}
+
+.controlGroup input[type="color"] {
+  width: 100%;
+  height: 30px;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.controlGroup input[type="checkbox"] {
+  margin-right: 10px;
+  transform: scale(1.2);
+  accent-color: #00aaff;
+}
+
+.controlGroup span {
+  font-size: 0.8rem;
+  color: #cccccc;
+  text-align: right;
+  margin-bottom: 8px;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.colorBtn {
+  width: 30px;
+  height: 30px;
+  border: 2px solid white;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.7);
+  font-weight: bold;
+  transition: transform 0.2s;
+}
+
+.colorBtn:hover {
+  transform: scale(1.1);
+}
+
+.speedBtn {
+  padding: 5px 8px;
+  background: #222;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.speedBtn:hover {
+  background: #444;
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+}
+
+.actionBtn, .resetBtn, .helpBtn {
+  padding: 8px 12px;
+  background: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.actionBtn:hover, .resetBtn:hover, .helpBtn:hover {
+  background: #0099ff;
+}
+
+.resetBtn {
+  background: #cc5500;
+}
+
+.resetBtn:hover {
+  background: #ff6600;
+}
+
+.helpBtn {
+  background: #555;
+  margin-top: 5px;
+}
+
+.helpBtn:hover {
+  background: #777;
+}
+
+.rotationControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.verticalBtns {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.directionBtn {
+  width: 40px;
+  height: 40px;
+  background: #333;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.directionBtn:hover {
+  background: #555;
+}
+
+.helpPanel {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin-top: 10px;
+}
+
+.helpPanel h3 {
+  font-size: 1rem;
+  margin-top: 0;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 5px;
+}
+
+.helpPanel ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.helpPanel li {
+  font-size: 0.85rem;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 768px) {
+  .controls {
+    width: 260px;
+    top: 10px;
+    right: 10px;
+    padding: 15px;
+    max-height: 70vh;
+  }
+  
+  .controls h2 {
+    font-size: 1.2rem;
+  }
+  
+  .buttonGroup {
+    gap: 3px;
+  }
+  
+  .colorBtn {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .directionBtn {
+    width: 35px;
+    height: 35px;
+  }
+}
