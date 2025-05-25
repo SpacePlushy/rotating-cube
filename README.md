@@ -41,6 +41,15 @@ npm run dev
 npm run build
 ```
 
+## Running Tests
+
+The project includes basic unit tests with Jest and React Testing Library.
+
+```bash
+# Run all tests
+npm test
+```
+
 ## Technologies
 
 - React 18
