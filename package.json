@@ -16,7 +16,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "echo \"No tests specified\" && exit 0",
+    "test": "node --test --experimental-specifier-resolution=node tests/basic.test.js",
     "test:puppeteer": "node tests/puppeteer-tests.js",
     "test:color-picker": "node tests/color-picker-test.js"
   },

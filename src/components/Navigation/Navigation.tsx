@@ -11,10 +11,16 @@ function Navigation() {
       </div>
       <ul className="nav-links">
         <li className={location.pathname === '/' ? 'active' : ''}>
-          <Link to="/">Rotating Cube</Link>
+          <Link to="/">Home</Link>
         </li>
         <li className={location.pathname === '/portfolio' ? 'active' : ''}>
           <Link to="/portfolio">Portfolio</Link>
+        </li>
+        <li className={location.pathname === '/cube' ? 'active' : ''}>
+          <Link to="/cube">Cube</Link>
+        </li>
+        <li className={location.pathname === '/snake' ? 'active' : ''}>
+          <Link to="/snake">Snake</Link>
         </li>
       </ul>
     </nav>

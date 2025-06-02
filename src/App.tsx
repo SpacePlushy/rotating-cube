@@ -5,6 +5,8 @@ import './App.css'
 // Pages
 import HomePage from './pages/HomePage'
 import PortfolioPage from './pages/PortfolioPage'
+import CubePage from './pages/CubePage'
+import SnakePage from './pages/SnakePage'
 
 // Components
 import Navigation from './components/Navigation/Navigation'
@@ -31,6 +33,8 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/portfolio" element={<PortfolioPage />} />
+          <Route path="/cube" element={<CubePage />} />
+          <Route path="/snake" element={<SnakePage />} />
         </Routes>
       </div>
     </BrowserRouter>
